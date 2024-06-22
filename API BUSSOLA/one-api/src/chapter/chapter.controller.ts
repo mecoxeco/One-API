@@ -8,8 +8,8 @@ export class ChapterController {
     constructor(private readonly chapterService: ChapterService) { }
 
     @Post
-    create(@Body() createCapterDto: CreateChapterDto) {
-        return this.chapterService.create(createCapterDto);
+    create(@Body() createChapterDto: CreateChapterDto) {
+        return this.chapterService.create(createChapterDto);
     }
 
     @Get()

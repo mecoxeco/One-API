@@ -4,7 +4,6 @@ import { CreateChapterDto } from './dto/create-chapter.dto';
 import { Chapter } from './schemas/chapter.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UpdateChapterDto } from './dto/update-chapter.dto';
 
 @Injectable()
 export class ChapterService {
@@ -23,7 +22,7 @@ export class ChapterService {
         return this.chapterModel.findById(id);
     }
 
-    // update(id: Int16Array, updateChapterDto: UpdateChapterDto) {
+    // update(id: int, updateChapterDto: UpdateChapterDto) {
     //     return `This action updates a #${id} chapter`;
     // }
 

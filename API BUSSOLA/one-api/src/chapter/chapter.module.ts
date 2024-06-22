@@ -6,10 +6,10 @@ import { Chapter, ChapterSchema } from './schemas/chapter.schema';
 
 @Module({
     imports: [
-        MongooseModule.forFeature([{ name: Chapter.name, schema: ChapterSchema}],)
+        MongooseModule.forFeature([{ name: Chapter.name, schema: ChapterSchema }],)
     ],
     controllers: [ChapterController],
     providers: [ChapterService],
 })
 
-export class ChapterModule {}
+export class ChapterModule { }

@@ -1,31 +1,41 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CreateCharacterDto } from './dto/create-character.dto';
+import { UpdateCharacterDto } from './dto/update-character.dto';
 import { Character } from './schemas/character.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { OnePieceApiService } from './one-piece-api.service';
 
 @Injectable()
 export class CharacterService {
-    constructor(@InjectModel(Character.name) private characterModel: Model<Character>) { }
+    constructor(
+        @InjectModel(Character.name) private characterModel: Model<Character>,
+        private onePieceApiService: OnePieceApiService
+    ) {}
 
-    async create(createCharacterDto: CreateCharacterDto): Promise<Character> {
-        const createdCharacter = new this.characterModel(createCharacterDto);
-        return createdCharacter.save();
+    async criar(createCharacterDto: CreateCharacterDto) {
+        const createdCharacter = await this.characterModel.create(createCharacterDto);
+        await this.onePieceApiService.createCharacter(createdCharacter);
+        return createdCharacter;
     }
 
-    async findAll(): Promise<Character[]> {
+    async buscarTodos() {
         return this.characterModel.find().exec();
     }
 
-    async findById(id: number): Promise<Character> {
-        const character = await this.characterModel.findById(id).exec();
-        if (!character) {
-            throw new NotFoundException(`Personagem com ID ${id} não encontrado`);
-        }
-        return character;
+    async buscarPorId(id: string) {
+        return this.onePieceApiService.getCharacter(parseInt(id));
     }
 
-    async remove(id: number): Promise<Character> {
-        return this.characterModel.findByIdAndDelete(id).exec();
+    async atualizar(id: string, updateCharacterDto: UpdateCharacterDto) {
+        const updatedCharacter = await this.characterModel.findByIdAndUpdate(id, updateCharacterDto, { new: true });
+        await this.onePieceApiService.updateCharacter(parseInt(id), updateCharacterDto);
+        return updatedCharacter;
+    }
+
+    async remover(id: string) {
+        const deletedCharacter = await this.characterModel.findByIdAndDelete(id);
+        await this.onePieceApiService.deleteCharacter(parseInt(id));
+        return deletedCharacter;
     }
 }

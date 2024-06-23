@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Param, Delete, Patch } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { CharacterService } from './character.service';
 import { CreateCharacterDto } from './dto/create-character.dto';
-import { UpdateCharacterDto } from './dto/update-character.dto'; // Importe o DTO de atualização
+import { UpdateCharacterDto } from './dto/update-character.dto';
 
 @Controller('character')
 export class CharacterController {
-    constructor(private readonly characterService: CharacterService) { }
+    constructor(private readonly characterService: CharacterService) {}
 
     @Post()
-    async create(@Body() createCharacterDto: CreateCharacterDto) {
-        return this.characterService.create(createCharacterDto);
+    async criar(@Body() createCharacterDto: CreateCharacterDto) {
+        return this.characterService.criar(createCharacterDto);
     }
 
     @Get()
-    async findAll() {
-        return this.characterService.findAll();
+    async buscarTodos() {
+        return this.characterService.buscarTodos();
     }
 
     @Get(':id')
-    async findOne(@Param('id') id: string) {
-        return this.characterService.findById(id);
+    async buscarUm(@Param('id') id: string) {
+        return this.characterService.buscarPorId(id);
     }
 
-    @Patch(':id') 
-    async update(@Param('id') id: string, @Body() updateCharacterDto: UpdateCharacterDto) {
-        return this.characterService.update(id, updateCharacterDto);
+    @Put(':id')
+    async atualizar(@Param('id') id: string, @Body() updateCharacterDto: UpdateCharacterDto) {
+        return this.characterService.atualizar(id, updateCharacterDto);
     }
 
     @Delete(':id')
-    async remove(@Param('id') id: string) {
-        return this.characterService.remove(id);
+    async remover(@Param('id') id: string) {
+        return this.characterService.remover(id);
     }
 }

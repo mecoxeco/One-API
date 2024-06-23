@@ -1,3 +1,5 @@
+// one-api/src/character/schemas/character.schema.ts
+
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 
@@ -6,13 +8,13 @@ export type CharacterDocument = HydratedDocument<Character>;
 @Schema()
 export class Character {
     @Prop()
-    id: int;
+    id: number;
 
     @Prop()
     nome: string;
 
     @Prop()
-    idade: int;
+    idade: number;
 
     @Prop()
     status: string;
@@ -21,7 +23,7 @@ export class Character {
     df: string;
 
     @Prop()
-    dfId: int;
+    dfId: number;
 
     @Prop()
     estreia: string;

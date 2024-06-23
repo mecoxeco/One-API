@@ -41,7 +41,7 @@ O servidor da API estará acessível localmente em: http://localhost:8080.
 ## Capítulos (Chapters)
 ### Endpoint Base: `/chapter`
 
-**POST** `/chapter`
+**POST** `/chapter` - 
 
 Cria um novo capítulo.
 

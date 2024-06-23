@@ -1,32 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCrewDto } from './dto/create-crew.dto';
-//import { UpdateCrewDto } from './dto/update-crew.dto';
+import { UpdateCrewDto } from './dto/update-crew.dto';
 import { Crew } from './schemas/crew.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { OnePieceApiService } from './one-piece-api.service';
 
 @Injectable()
 export class CrewService {
-    constructor(@InjectModel(Crew.name) private CrewModel: Model<Crew>) { }
+    constructor(
+        @InjectModel(Crew.name) private crewModel: Model<Crew>,
+        private onePieceApiService: OnePieceApiService
+    ) {}
 
-    create(createCrewDto: CreateCrewDto) {
-        const createdCrew = this.crewModel.create(createCrewDto);
+    async criar(createCrewDto: CreateCrewDto) {
+        const createdCrew = await this.crewModel.create(createCrewDto);
+        await this.onePieceApiService.createCrew(createdCrew);
         return createdCrew;
     }
 
-    findAll() {
-        return this.crewModel.find();
+    async buscarTodos() {
+        return this.crewModel.find().exec();
     }
 
-    findById(id: int) {
-        return this.crewModel.findById(id);
+    async buscarPorId(id: string) {
+        return this.onePieceApiService.getCrew(parseInt(id));
     }
 
-    // update(id: int, updateCrewDto: UpdateCrewDto) {
-    //     return `This action updates a #${id} crew`;
-    // }
+    async atualizar(id: string, updateCrewDto: UpdateCrewDto) {
+        const updatedCrew = await this.crewModel.findByIdAndUpdate(id, updateCrewDto, { new: true });
+        await this.onePieceApiService.updateCrew(parseInt(id), updateCrewDto);
+        return updatedCrew;
+    }
 
-    remove(id: int) {
-        return this.crewModel.findByIdAndDelete(id);
+    async remover(id: string) {
+        const deletedCrew = await this.crewModel.findByIdAndDelete(id);
+        await this.onePieceApiService.deleteCrew(parseInt(id));
+        return deletedCrew;
     }
 }

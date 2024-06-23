@@ -1,12 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {HydratedDocument} from 'mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type CrewDocument = HydratedDocument<Crew>;
 
 @Schema()
 export class Crew {
     @Prop()
-    id: int;
+    id: number;
 
     @Prop()
     nome: string;
@@ -15,7 +15,7 @@ export class Crew {
     nomeRomanizado: string;
 
     @Prop()
-    FirstAparicao: string;
+    firstAparicao: string;
 
     @Prop()
     capitao: string;

@@ -1,12 +1,12 @@
-import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {HydratedDocument} from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
 
 export type EpisodeDocument = HydratedDocument<Episode>;
 
 @Schema()
 export class Episode {
     @Prop()
-    id: int;
+    id: number;
 
     @Prop()
     titulo: string;
@@ -21,10 +21,10 @@ export class Episode {
     personagens: string;
 
     @Prop()
-    temporada: int;
+    temporada: number;
 
     @Prop()
-    episodio: int;
+    episodio: number;
 
     @Prop()
     locais: string;

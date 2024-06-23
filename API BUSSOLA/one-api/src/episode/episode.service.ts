@@ -1,32 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
-//import { UpdateEpisodeDto } from './dto/update-episode.dto';
+import { UpdateEpisodeDto } from './dto/update-episode.dto';
 import { Episode } from './schemas/episode.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { OnePieceApiService } from '../one-piece-api/one-piece-api.service';
 
 @Injectable()
 export class EpisodeService {
-    constructor(@InjectModel(Episode.name) private episodeModel: Model<Episode>) { }
+  constructor(
+    @InjectModel(Episode.name) private episodeModel: Model<Episode>,
+    private onePieceApiService: OnePieceApiService
+  ) {}
 
-    create(createEpisodeDto: CreateEpisodeDto) {
-        const createdEpisode = this.episodeModel.create(createEpisodeDto);
-        return createdEpisode;
-    }
+  async criar(createEpisodeDto: CreateEpisodeDto) {
+    const createdEpisode = await this.episodeModel.create(createEpisodeDto);
+    await this.onePieceApiService.createEpisode(createdEpisode);
+    return createdEpisode;
+  }
 
-    findAll() {
-        return this.episodeModel.find();
-    }
+  async buscarTodos() {
+    return this.episodeModel.find().exec();
+  }
 
-    findById(id: int) {
-        return this.episodeModel.findById(id);
-    }
+  async buscarPorId(id: string) {
+    return this.onePieceApiService.getEpisode(parseInt(id));
+  }
 
-    // update(id: int, updateEpisodeDto: UpdateEpisodeDto) {
-    //     return `This action updates a #${id} episode`;
-    // }
+  async atualizar(id: string, updateEpisodeDto: UpdateEpisodeDto) {
+    const updatedEpisode = await this.episodeModel.findByIdAndUpdate(id, updateEpisodeDto, { new: true });
+    await this.onePieceApiService.updateEpisode(parseInt(id), updateEpisodeDto);
+    return updatedEpisode;
+  }
 
-    remove(id: int) {
-        return this.episodeModel.findByIdAndDelete(id);
-    }
+  async remover(id: string) {
+    const deletedEpisode = await this.episodeModel.findByIdAndDelete(id);
+    await this.onePieceApiService.deleteEpisode(parseInt(id));
+    return deletedEpisode;
+  }
 }

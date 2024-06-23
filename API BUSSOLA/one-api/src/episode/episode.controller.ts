@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Param, Delete } from 'nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { EpisodeService } from './episode.service';
 import { CreateEpisodeDto } from './dto/create-episode.dto';
-// import { UpdateEpisodeDto } from './dto/update-episode.dto';
+import { UpdateEpisodeDto } from './dto/update-episode.dto';
 
 @Controller('episode')
 export class EpisodeController {
-    constructor(private readonly episodeService: EpisodeService) { }
+    constructor(private readonly episodeService: EpisodeService) {}
 
-    @Post
-    create(@Body() createEpisodeDto: CreateEpisodeDto) {
-        return this.episodeService.create(createEpisodeDto);
+    @Post()
+    async criar(@Body() createEpisodeDto: CreateEpisodeDto) {
+        return this.episodeService.criar(createEpisodeDto);
     }
 
     @Get()
-    findAll() {
-        return this.episodeService.findAll();
+    async buscarTodos() {
+        return this.episodeService.buscarTodos();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: int) {
-        return this.episodeService.findById(id);
+    async buscarUm(@Param('id') id: string) {
+        return this.episodeService.buscarPorId(id);
     }
 
-    // @Patch(':id')
-    // update(@Param('id') id: int, @Body() updateEpisodeDto: UpdateEpisodeDto) {
-    //     return this.episodeService.update(id, updateEpisodeDto);
-    // }
+    @Put(':id')
+    async atualizar(@Param('id') id: string, @Body() updateEpisodeDto: UpdateEpisodeDto) {
+        return this.episodeService.atualizar(id, updateEpisodeDto);
+    }
 
     @Delete(':id')
-    remove(@Param('id') id: int) {
-        return this.episodeService.remove(id);
+    async remover(@Param('id') id: string) {
+        return this.episodeService.remover(id);
     }
 }

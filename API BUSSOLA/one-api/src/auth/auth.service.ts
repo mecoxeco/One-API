@@ -1,34 +1,44 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserService } from './user/user.service';
+// src/auth/auth.service.ts
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AuthCredentialsDto } from './auth.entity';
-import { BcryptService } from './bcrypt.service';
-import { User } from './user/user.entity';
+import { UsersService } from './users/users.service';
+import { LoginDto } from './dto/login.dto';
+import { RegisterDto } from './dto/register.dto';
+import { User } from './users/schemas/user.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService,
-    private readonly bcryptService: BcryptService,
+    private usersService: UsersService,
+    private jwtService: JwtService,
   ) {}
 
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    const { username, password } = authCredentialsDto;
-    const hashedPassword = await this.bcryptService.hashPassword(password);
-    await this.userService.createUser(username, hashedPassword);
+  async validateUser(username: string, password: string): Promise<User | null> {
+    const user = await this.usersService.findOne(username);
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const { password, ...result } = user;
+      return result;
+    }
+    return null;
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<{ accessToken: string }> {
-    const { username, password } = authCredentialsDto;
-    const user = await this.userService.findOneByUsername(username);
+  async register(registerDto: RegisterDto): Promise<User> {
+    const hashedPassword = bcrypt.hashSync(registerDto.password, 10);
+    return this.usersService.create({
+      ...registerDto,
+      password: hashedPassword,
+    });
+  }
 
-    if (user && await this.bcryptService.comparePasswords(password, user.password)) {
-      const payload = { username };
-      const accessToken = this.jwtService.sign(payload);
-      return { accessToken };
-    } else {
-      throw new UnauthorizedException('Credenciais inválidas.');
+  async login(loginDto: LoginDto) {
+    const user = await this.validateUser(loginDto.username, loginDto.password);
+    if (!user) {
+      return { message: 'Credenciais inválidas' };
     }
+    const payload = { username: user.username, sub: user._id };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

@@ -2,7 +2,7 @@
 
 ## Dependências Utilizadas
 
-### NestJS API Project
+### ONE API NestJS
 
 [![NestJS](https://img.shields.io/badge/NestJS-8.0.0-red.svg)](https://nestjs.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-4.4.3-blue.svg)](https://www.typescriptlang.org/)

@@ -6,6 +6,7 @@ import { CrewModule } from './crew/crew.module';
 import { DevilFruitModule } from './devil-fruit/devil-fruit.module';
 import { EpisodeModule } from './episode/episode.module';
 import { OnePieceApiModule } from './one-piece-api/one-piece-api.module';
+import { DataImportModule } from './data-import/data-import.module';
 
 @Module({
   imports: [
@@ -18,8 +19,10 @@ import { OnePieceApiModule } from './one-piece-api/one-piece-api.module';
     CrewModule,
     DevilFruitModule,
     EpisodeModule,
-    OnePieceApiModule, 
+    OnePieceApiModule,
+    DataImportModule, 
   ],
+  
   controllers: [],
   providers: [],
 })

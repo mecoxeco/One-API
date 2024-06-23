@@ -50,10 +50,36 @@ O servidor da API estará acessível localmente em: http://localhost:8080.
 
 # Endpoints das entidades na API 
 
-## Capítulos (Chapters)
-### Endpoint Base: `/chapter`
+## Data Import (50 itens de cada entidade)
+### Endpoint Base: /data-import
 
-**POST** `/chapter` - 
+1. **POST** `/data-import`
+Descrição: Esta rota permite importar dados em massa de uma API externa para a base de dados local e retorna os 50 itens importados de cada entidade (Chapter, Character, Crew, DevilFruit, Episode).
+
+Exemplo de uso:
+
+```bash
+curl -X POST "http://localhost:3000/data-import"
+```
+Retorno:
+
+```json
+{
+  "message": "Importação de dados concluída com sucesso",
+  "importedEntities": {
+    "chapters": [...], // Array com os 50 capítulos importados
+    "characters": [...], // Array com os 50 personagens importados
+    "crews": [...], // Array com as 50 tripulações importadas
+    "devilFruits": [...], // Array com as 50 frutas do diabo importadas
+    "episodes": [...] // Array com os 50 episódios importados
+  }
+}
+```
+
+## Capítulos (Chapters)
+### Endpoint Base: /chapter
+
+1. **POST** `/chapter`
 
 Cria um novo capítulo.
 
@@ -70,7 +96,8 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 
 Retorno: Retorna os dados do capítulo criado.
-**GET** `/chapter`
+
+2. **GET** `/chapter`
 Retorna todos os capítulos.
 
 Exemplo de uso:
@@ -80,7 +107,7 @@ curl "http://localhost:3000/chapter"
 ```
 Retorno: Retorna uma lista de todos os capítulos.
 
-**GET** `/chapter/:id`
+3. **GET** `/chapter/:id`
 Retorna um capítulo específico pelo ID.
 
 Exemplo de uso:
@@ -90,7 +117,7 @@ curl "http://localhost:3000/chapter/1"
 ```
 Retorno: Retorna os detalhes do capítulo especificado pelo ID.
 
-**PUT** `/chapter/:id`
+4. **PUT** `/chapter/:id`
 Atualiza um capítulo existente pelo ID.
 
 Exemplo de uso:
@@ -102,7 +129,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados atualizados do capítulo.
 
-**DELETE** `/chapter/:id`
+5. **DELETE** `/chapter/:id`
 Remove um capítulo pelo ID.
 
 Exemplo de uso:
@@ -115,7 +142,7 @@ Retorno: Retorna uma confirmação de remoção bem-sucedida.
 ## Personagens (Characters)
 ### Endpoint Base: /character
 
-**POST** `/character`
+1. **POST** `/character`
 Cria um novo personagem.
 
 Exemplo de uso:
@@ -141,7 +168,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados do personagem criado.
 
-**GET** `/character`
+2. **GET** `/character`
 Retorna todos os personagens.
 
 Exemplo de uso:
@@ -151,7 +178,7 @@ curl "http://localhost:3000/character"
 ```
 Retorno: Retorna uma lista de todos os personagens.
 
-**GET** `/character/:id`
+3. **GET** `/character/:id`
 Retorna um personagem epecífico pelo ID.
 
 Exemplo de uso:
@@ -161,7 +188,7 @@ curl "http://localhost:3000/character/1"
 ```
 Retorno: Retorna os detalhes do personagem especificado pelo ID.
 
-**PUT** `/character/:id`
+4. **PUT** `/character/:id`
 Atualiza um personagem existente pelo ID.
 
 Exemplo de uso:
@@ -173,7 +200,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados atualizados do personagem.
 
-**DELETE** `/character/:id`
+5. **DELETE** `/character/:id`
 Remove um personagem pelo ID.
 
 Exemplo de uso:
@@ -186,7 +213,7 @@ Retorno: Retorna uma confirmação de remoção bem-sucedida.
 ## Tripulações (Crews)
 ### Endpoint Base: /crew
 
-**POST** `/crew`
+1. **POST** `/crew`
 Cria uma nova tripulação.
 
 Exemplo de uso:
@@ -206,7 +233,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados da tripulação criada.
 
-**GET** `/crew`
+2. **GET** `/crew`
 Retorna todas as tripulações.
 
 Exemplo de uso:
@@ -216,7 +243,7 @@ curl "http://localhost:3000/crew"
 ```
 Retorno: Retorna uma lista de todas as tripulações.
 
-**GET** `/crew/:id`
+3. **GET** `/crew/:id`
 Retorna uma tripulação específica pelo ID/.
 
 Exemplo de uso:
@@ -226,7 +253,7 @@ curl "http://localhost:3000/crew/1"
 ```
 Retorno: Retorna os detalhes da tripulação especificada pelo ID.
 
-**PUT** `/crew/:id`
+4. **PUT** `/crew/:id`
 Atualiza uma tripulação existente pelo ID.
 
 Exemplo de uso:
@@ -238,7 +265,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados atualizados da tripulação.
 
-**DELETE** `/crew/:id`
+5. **DELETE** `/crew/:id`
 Remove uma tripulação pelo ID.
 
 Exemplo de uso:
@@ -251,7 +278,7 @@ Retorno: Retorna uma confirmação de remoção bem-sucedida.
 ## Frutas do Diabo (Devil Fruits)
 ### Endpoint Base: /devil-fruit
 
-**POST** `/devil-fruit`
+1. **POST** `/devil-fruit`
 Cria uma nova fruta do diabo.
 
 Exemplo de uso:
@@ -270,7 +297,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados da fruta do diabo criada.
 
-**GET** `/devil-fruit`
+2. **GET** `/devil-fruit`
 Retorna todas as frutas do diabo.
 
 Exemplo de uso:
@@ -280,7 +307,7 @@ curl "http://localhost:3000/devil-fruit"
 ```
 Retorno: Retorna uma lista de todas as frutas do diabo.
 
-**GET** `/devil-fruit/:id`
+3. **GET** `/devil-fruit/:id`
 Retorna uma fruta do diabo específica pelo ID.
 
 Exemplo de uso:
@@ -290,7 +317,7 @@ curl "http://localhost:3000/devil-fruit/1"
 ```
 Retorno: Retorna os detalhes da fruta do diabo especificada pelo ID.
 
-**PUT** `/devil-fruit/:id`
+4. **PUT** `/devil-fruit/:id`
 Atualiza uma fruta do diabo existente pelo ID.
 
 Exemplo de uso:
@@ -302,7 +329,7 @@ curl -X PUT -H "Content-Type: application/json" -d '{
 ```
 Retorno: Retorna os dados atualizados da fruta do diabo.
 
-**DELETE** `/devil-fruit/:id`
+5. **DELETE** `/devil-fruit/:id`
 Remove uma fruta do diabo pelo ID.
 
 Exemplo de uso:
@@ -315,7 +342,7 @@ Retorno: Retorna uma confirmação de remoção bem-sucedida.
 ## Episódios (Episodes)
 ### Endpoint Base: /episode
 
-**POST** `/episode`
+1. **POST** `/episode`
 Cria um novo episódio.
 
 Exemplo de uso:
@@ -333,3 +360,48 @@ curl -X POST -H "Content-Type: application/json" -d '{
   "abertura": "We Are!"
 }' "http://localhost:3000/episode"
 ```
+
+Retorno: Retorna os dados do episódio criado.
+
+2. **GET** `/episode`
+
+Retorna todos os episódios.
+
+Exemplo de uso:
+```bash
+curl "http://localhost:3000/episode"
+```
+Retorno: Retorna uma lista de todos os episódios.
+
+3. **GET** `/episode/:id`
+Retorna um episódio específico pelo ID.
+
+Exemplo de uso:
+
+```bash
+curl "http://localhost:3000/episode/1"
+```
+Retorno: Retorna os detalhes do episódio especificado pelo ID.
+
+4. **PUT** `/episode/:id`
+Atualiza um episódio existente pelo ID.
+
+Exemplo de uso:
+
+```bash
+curl -X PUT -H "Content-Type: application/json" -d '{
+  "titulo": "Episódio 1 - Eu Sou Luffy! O Homem que se Tornará o Rei dos Piratas (Atualizado)"
+}' "http://localhost:3000/episode/1"
+```
+Retorno: Retorna os dados atualizados do episódio.
+
+**DELETE** `/episode/:id`
+Remove um episódio pelo ID.
+
+Exemplo de uso:
+
+```bash
+curl -X DELETE "http://localhost:3000/episode/1"
+```
+
+Retorno: Retorna uma confirmação de remoção bem-sucedida.

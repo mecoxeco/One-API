@@ -27,6 +27,11 @@ export class OnePieceApiService {
     return response.data;
   }
 
+  async getMultipleChapters(limit: number) {
+    const response = await this.httpService.get(`${this.baseUrl}/chapters?limit=${limit}`).toPromise();
+    return response.data;
+  }
+
   // CHARACTER ENTITY
   async getCharacter(id: number) {
     const response = await this.httpService.get(`${this.baseUrl}/character/${id}`).toPromise();
@@ -45,6 +50,11 @@ export class OnePieceApiService {
 
   async deleteCharacter(id: number) {
     const response = await this.httpService.delete(`${this.baseUrl}/character/${id}`).toPromise();
+    return response.data;
+  }
+
+  async getMultipleCharacters(limit: number) {
+    const response = await this.httpService.get(`${this.baseUrl}/characters?limit=${limit}`).toPromise();
     return response.data;
   }
 
@@ -69,6 +79,11 @@ export class OnePieceApiService {
     return response.data;
   }
 
+  async getMultipleCrews(limit: number) {
+    const response = await this.httpService.get(`${this.baseUrl}/crews?limit=${limit}`).toPromise();
+    return response.data;
+  }
+
   // DEVILFRUIT ENTITY
   async getDevilFruit(id: number) {
     const response = await this.httpService.get(`${this.baseUrl}/devil-fruit/${id}`).toPromise();
@@ -90,6 +105,11 @@ export class OnePieceApiService {
     return response.data;
   }
 
+  async getMultipleDevilFruits(limit: number) {
+    const response = await this.httpService.get(`${this.baseUrl}/devil-fruits?limit=${limit}`).toPromise();
+    return response.data;
+  }
+
   // EPISODES ENTITY
   async getEpisode(id: number) {
     const response = await this.httpService.get(`${this.baseUrl}/episode/${id}`).toPromise();
@@ -108,6 +128,11 @@ export class OnePieceApiService {
 
   async deleteEpisode(id: number) {
     const response = await this.httpService.delete(`${this.baseUrl}/episode/${id}`).toPromise();
+    return response.data;
+  }
+
+  async getMultipleEpisodes(limit: number) {
+    const response = await this.httpService.get(`${this.baseUrl}/episodes?limit=${limit}`).toPromise();
     return response.data;
   }
 }

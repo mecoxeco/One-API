@@ -1,10 +1,10 @@
 export class CreateCharacterDto {
-    id: int;
+    id: number;
     nome: string;
-    idade: int;
+    idade: number;
     status: string;
     df: string;
-    dfId: int;
+    dfId: number;
     estreia: string;
     mainAfiliado: string;
     outrasAfiliacoes: string;

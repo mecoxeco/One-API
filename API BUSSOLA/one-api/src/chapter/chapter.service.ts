@@ -1,32 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateChapterDto } from './dto/create-chapter.dto';
-//import { UpdateChapterDto } from './dto/update-chapter.dto';
+import { UpdateChapterDto } from './dto/update-chapter.dto'; 
 import { Chapter } from './schemas/chapter.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { OnePieceApiService } from './one-piece-api.service';
 
 @Injectable()
 export class ChapterService {
-    constructor(@InjectModel(Chapter.name) private chapterModel: Model<Chapter>) { }
+    constructor(
+        @InjectModel(Chapter.name) private chapterModel: Model<Chapter>,
+        private onePieceApiService: OnePieceApiService
+    ) { }
 
-    create(createChapterDto: CreateChapterDto) {
-        const createdChapter = this.chapterModel.create(createChapterDto);
+    async criar(createChapterDto: CreateChapterDto) {
+        const createdChapter = await this.chapterModel.create(createChapterDto);
+        await this.onePieceApiService.createChapter(createdChapter);
         return createdChapter;
     }
 
-    findAll() {
-        return this.chapterModel.find();
+    async buscarTodos() {
+        return this.chapterModel.find().exec();
     }
 
-    findById(id: int) {
-        return this.chapterModel.findById(id);
+    async buscarPorId(id: string) {
+        return this.onePieceApiService.getChapter(parseInt(id));
     }
 
-    // update(id: int, updateChapterDto: UpdateChapterDto) {
-    //     return `This action updates a #${id} chapter`;
-    // }
+    async atualizar(id: string, updateChapterDto: UpdateChapterDto) {
+        const updatedChapter = await this.chapterModel.findByIdAndUpdate(id, updateChapterDto, { new: true });
+        await this.onePieceApiService.updateChapter(parseInt(id), updateChapterDto);
+        return updatedChapter;
+    }
 
-    remove(id: int) {
-        return this.chapterModel.findByIdAndDelete(id);
+    async remover(id: string) {
+        const deletedChapter = await this.chapterModel.findByIdAndDelete(id);
+        await this.onePieceApiService.deleteChapter(parseInt(id));
+        return deletedChapter;
     }
 }

@@ -1,8 +1,8 @@
 export class CreateChapterDto {
-    id: int;
+    id: number;
     titulo: string;
-    volume: int;
-    capitulo: int;
-    pgs: int;
+    volume: number;
+    capitulo: number;
+    pgs: number;
     lancamento: Date; 
 }

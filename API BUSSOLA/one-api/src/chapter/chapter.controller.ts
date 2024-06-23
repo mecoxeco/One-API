@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Param, Delete } from 'nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { ChapterService } from './chapter.service';
 import { CreateChapterDto } from './dto/create-chapter.dto';
-// import { UpdateChapterDto } from './dto/update-chapter.dto';
+import { UpdateChapterDto } from './dto/update-chapter.dto'; // Importe o DTO de atualização
 
 @Controller('chapter')
 export class ChapterController {
     constructor(private readonly chapterService: ChapterService) { }
 
-    @Post
-    create(@Body() createChapterDto: CreateChapterDto) {
-        return this.chapterService.create(createChapterDto);
+    @Post()
+    async criar(@Body() createChapterDto: CreateChapterDto) {
+        return this.chapterService.criar(createChapterDto);
     }
 
     @Get()
-    findAll() {
-        return this.chapterService.findAll();
+    async buscarTodos() {
+        return this.chapterService.buscarTodos();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: int) {
-        return this.chapterService.findById(id);
+    async buscarUm(@Param('id') id: string) {
+        return this.chapterService.buscarPorId(id);
     }
 
-    // @Patch(':id')
-    // update(@Param('id') id: int, @Body() updateChapterDto: UpdateChapterDto) {
-    //     return this.chapterService.update(id, updateChapterDto);
-    // }
+    @Put(':id')
+    async atualizar(@Param('id') id: string, @Body() updateChapterDto: UpdateChapterDto) {
+        return this.chapterService.atualizar(id, updateChapterDto);
+    }
 
     @Delete(':id')
-    remove(@Param('id') id: int) {
-        return this.chapterService.remove(id);
+    async remover(@Param('id') id: string) {
+        return this.chapterService.remover(id);
     }
 }

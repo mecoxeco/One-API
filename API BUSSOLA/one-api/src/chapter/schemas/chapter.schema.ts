@@ -6,19 +6,19 @@ export type ChapterDocument = HydratedDocument<Chapter>;
 @Schema()
 export class Chapter {
     @Prop()
-    id: int;
+    id: number;
 
     @Prop()
     titulo: string;
 
     @Prop()
-    volume: int;
+    volume: number;
 
     @Prop()
-    capitulo: int;
+    capitulo: number;
 
     @Prop()
-    pgs: int;
+    pgs: number;
 
     @Prop()
     lancamento: Date;

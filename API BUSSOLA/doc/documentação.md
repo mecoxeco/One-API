@@ -1,5 +1,17 @@
 # Documentação da API One-API Integrada com One Piece API
 
+## Dependências Utilizadas
+
+### NestJS API Project
+
+[![NestJS](https://img.shields.io/badge/NestJS-8.0.0-red.svg)](https://nestjs.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-4.4.3-blue.svg)](https://www.typescriptlang.org/)
+[![Express](https://img.shields.io/badge/Express-4.17.1-lightgrey.svg)](https://expressjs.com/)
+[![Mongoose](https://img.shields.io/badge/Mongoose-6.0.12-green.svg)](https://mongoosejs.com/)
+[![Jest](https://img.shields.io/badge/Jest-27.0.6-orange.svg)](https://jestjs.io/)
+[![Docker](https://img.shields.io/badge/Docker-20.10.11-blue.svg)](https://www.docker.com/)
+
+
 ## Instalação da One Piece API (GoLang)
 
 Link da API https://github.com/amafoas/one-piece-api"

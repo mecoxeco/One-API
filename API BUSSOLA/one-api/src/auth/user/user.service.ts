@@ -1,47 +1,39 @@
 import { Injectable } from '@nestjs/common';
-import * as bcrypt from 'bcryptjs';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from './user.entity';
+import { BcryptService } from '../bcrypt.service';
 
 @Injectable()
 export class UserService {
-  private users = [
-    { userId: 1, username: 'Otavio', password: bcrypt.hashSync('password', 10) },
-    { userId: 2, username: 'Pedrinho', password: bcrypt.hashSync('secret', 10) },
-  ];
+  constructor(
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly bcryptService: BcryptService,
+  ) {}
 
-  async findByUsername(username: string): Promise<any> {
-    return this.users.find(user => user.username === username);
+  async createUser(username: string, password: string): Promise<User> {
+    const hashedPassword = await this.bcryptService.hashPassword(password);
+    const newUser = new this.userModel({ username, password: hashedPassword });
+    return newUser.save();
   }
 
-  async findAll(): Promise<any[]> {
-    return this.users;
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
-  async findOne(id: number): Promise<any> {
-    return this.users.find(user => user.userId === id);
+  async findOneByUsername(username: string): Promise<User | null> {
+    return this.userModel.findOne({ username }).exec();
   }
 
-  async create(user: any): Promise<any> {
-    const newUser = { userId: Date.now(), ...user };
-    newUser.password = bcrypt.hashSync(newUser.password, 10); 
-    this.users.push(newUser);
-    return newUser;
+  async findById(id: string): Promise<User | null> {
+    return this.userModel.findById(id).exec();
   }
 
-  async update(id: number, updateUserDto: any): Promise<any> {
-    const index = this.users.findIndex(user => user.userId === id);
-    if (index !== -1) {
-      this.users[index] = { ...this.users[index], ...updateUserDto };
-      return this.users[index];
-    }
-    return null;
+  async update(id: string, user: User): Promise<User | null> {
+    return this.userModel.findByIdAndUpdate(id, user, { new: true }).exec();
   }
 
-  async remove(id: number): Promise<any> {
-    const index = this.users.findIndex(user => user.userId === id);
-    if (index !== -1) {
-      const removedUser = this.users.splice(index, 1);
-      return removedUser[0];
-    }
-    return null;
+  async remove(id: string): Promise<User | null> {
+    return this.userModel.findByIdAndDelete(id).exec();
   }
 }

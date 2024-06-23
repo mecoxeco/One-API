@@ -1,32 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDevilFruitDto } from './dto/create-devil-fruit.dto';
-//import { UpdateDevilFruitDto } from './dto/update-devil-fruit.dto';
+import { CreateDFDto } from './dto/create-df.dto';
+import { UpdateDFDto } from './dto/update-df.dto';
 import { DevilFruit } from './schemas/devil-fruit.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { OnePieceApiService } from './one-piece-api.service';
 
 @Injectable()
 export class DevilFruitService {
-    constructor(@InjectModel(DevilFruit.name) private devilfruitModel: Model<DevilFruit>) { }
+    constructor(
+        @InjectModel(DevilFruit.name) private devilFruitModel: Model<DevilFruit>,
+        private onePieceApiService: OnePieceApiService
+    ) {}
 
-    create(createDevilFruitDto: CreateDevilFruitDto) {
-        const createdDevilFruit = this.devilfruitModel.create(createDevilFruitDto);
+    async criar(createDFDto: CreateDFDto) {
+        const createdDevilFruit = await this.devilFruitModel.create(createDFDto);
+        await this.onePieceApiService.createDevilFruit(createdDevilFruit);
         return createdDevilFruit;
     }
 
-    findAll() {
-        return this.devilfruitModel.find();
+    async buscarTodos() {
+        return this.devilFruitModel.find().exec();
     }
 
-    findById(id: int) {
-        return this.devilfruitModel.findById(id);
+    async buscarPorId(id: string) {
+        return this.onePieceApiService.getDevilFruit(parseInt(id));
     }
 
-    // update(id: int, updateDevilFruitDto: UpdateDevilFruitDto) {
-    //     return `This action updates a #${id} devilfruit`;
-    // }
+    async atualizar(id: string, updateDFDto: UpdateDFDto) {
+        const updatedDevilFruit = await this.devilFruitModel.findByIdAndUpdate(id, updateDFDto, { new: true });
+        await this.onePieceApiService.updateDevilFruit(parseInt(id), updateDFDto);
+        return updatedDevilFruit;
+    }
 
-    remove(id: int) {
-        return this.devilfruitModel.findByIdAndDelete(id);
+    async remover(id: string) {
+        const deletedDevilFruit = await this.devilFruitModel.findByIdAndDelete(id);
+        await this.onePieceApiService.deleteDevilFruit(parseInt(id));
+        return deletedDevilFruit;
     }
 }

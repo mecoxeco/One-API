@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
 import { ChapterService } from './chapter.service';
 import { CreateChapterDto } from './dto/create-chapter.dto';
-import { UpdateChapterDto } from './dto/update-chapter.dto'; // Importe o DTO de atualização
+import { UpdateChapterDto } from './dto/update-chapter.dto'; 
 
 @Controller('chapter')
 export class ChapterController {

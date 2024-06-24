@@ -7,13 +7,13 @@ import { Log, LogDocument } from './schemas/log.schema';
 export class AppService {
   constructor(@InjectModel(Log.name) private logModel: Model<LogDocument>) {}
 
-  async createLog(route: string, method: string, responseTime: number) {
-    const log = new this.logModel({ route, method, responseTime });
+  async criarLog(roda: string, metodo: string, tempoResposta: number) {
+    const log = new this.logModel({ rota, metodo, tempoResposta });
     return log.save();
   }
 }
 
-// Middleware
+// ::: Middleware para logs :::
 export class ResponseTimeMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
@@ -21,12 +21,16 @@ export class ResponseTimeMiddleware implements NestMiddleware {
 
   use(req: any, res: any, next: () => void) {
     const start = Date.now();
-    res.on('finish', () => {
-      const responseTime = Date.now() - start;
+    res.on('finish', async () => {
+      const tempoResposta = Date.now() - start;
       const { method, originalUrl } = req;
-      this.logger.log(`${method} ${originalUrl} ${responseTime}ms`);
+      this.logger.log(`${method} ${originalUrl} ${tempoResposta}ms`);
 
-      this.appService.createLog(originalUrl, method, responseTime);
+      try {
+        await this.appService.criarLog(originalUrl, method, tempoResposta);
+      } catch (error) {
+        this.logger.error(`Falha ao registrar tempo de resposta: ${error.message}`);
+      }
     });
     next();
   }

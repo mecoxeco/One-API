@@ -1,18 +1,13 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Schema, Document } from 'mongoose';
+
+export interface Log {
+  message: string;
+  timestamp: Date;
+}
 
 export type LogDocument = Log & Document;
 
-@Schema()
-export class Log {
-  @Prop({ required: true })
-  route: string;
-
-  @Prop({ required: true })
-  method: string;
-
-  @Prop({ required: true })
-  responseTime: number;
-}
-
-export const LogSchema = SchemaFactory.createForClass(Log);
+export const LogSchema = new Schema<LogDocument>({
+  message: { type: String, required: true },
+  timestamp: { type: Date, default: Date.now },
+});

@@ -5,7 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
 import { AppService, ResponseTimeMiddleware } from './app.service';
-import { Log, LogSchema } from './schema/log.schema';
+import { Log, LogSchema } from './schemas/log.schema';
 import { AuthModule } from './auth/auth.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { CharacterModule } from './character/character.module';

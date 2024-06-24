@@ -11,10 +11,7 @@ export class AppController {
   async connectToDatabase() {
     try {
       const uri = this.configService.get<string>('MONGODB_URI');
-      await mongoose.connect(uri, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
+      await mongoose.connect(uri);
       console.log('Connected to MongoDB');
     } catch (error) {
       console.error('Error connecting to MongoDB:', error);

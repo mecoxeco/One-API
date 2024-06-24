@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
@@ -23,8 +23,6 @@ import { EpisodeModule } from './episode/episode.module';
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
-        useNewUrlParser: false,
-        useUnifiedTopology: true,
       }),
       inject: [ConfigService],
     }),
@@ -48,8 +46,4 @@ import { EpisodeModule } from './episode/episode.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(ResponseTimeMiddleware).forRoutes('*');
-  }
-}
+export class AppModule {}

@@ -7,13 +7,13 @@ import { Log, LogDocument } from './schemas/log.schema';
 export class AppService {
   constructor(@InjectModel(Log.name) private logModel: Model<LogDocument>) {}
 
-  async criarLog(roda: string, metodo: string, tempoResposta: number) {
+  async criarLog(rota: string, metodo: string, tempoResposta: number) {
     const log = new this.logModel({ rota, metodo, tempoResposta });
     return log.save();
   }
 }
 
-// ::: Middleware para logs :::
+// Middleware 
 export class ResponseTimeMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 

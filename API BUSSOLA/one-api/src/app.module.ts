@@ -1,10 +1,11 @@
-import { Module } from '@nestjs/common';
+import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { AppService, ResponseTimeMiddleware } from './app.service';
+import { Log, LogSchema } from './log.schema'; 
 import { AuthModule } from './auth/auth.module';
 import { ChapterModule } from './chapter/chapter.module';
 import { CharacterModule } from './character/character.module';
@@ -27,6 +28,7 @@ import { EpisodeModule } from './episode/episode.module';
       }),
       inject: [ConfigService],
     }),
+    MongooseModule.forFeature([{ name: Log.name, schema: LogSchema }]),  
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -46,4 +48,8 @@ import { EpisodeModule } from './episode/episode.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(ResponseTimeMiddleware).forRoutes('*');
+  }
+}

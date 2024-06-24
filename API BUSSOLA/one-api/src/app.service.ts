@@ -13,6 +13,7 @@ export class AppService {
   }
 }
 
+// Middleware
 export class ResponseTimeMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 

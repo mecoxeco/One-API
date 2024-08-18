@@ -1,4 +1,4 @@
-# One Api v1
+# One Api V1
 
 ## Documentação da One-API Integrada com One Piece API
 
